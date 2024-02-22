@@ -1,5 +1,5 @@
 import Car from "./car";
-import { Border, Point, Ray } from "./types";
+import { Border, Ray } from "./types";
 import { getIntersection, lerp } from "./utils";
 
 class Sensor {
@@ -8,10 +8,9 @@ class Sensor {
   private rayLength: number;
   private raySpread: number;
   private rays: Ray[];
-  private ctx: CanvasRenderingContext2D;
   private readings: any[];
 
-  constructor(ctx: CanvasRenderingContext2D, car: Car) {
+  constructor(car: Car) {
     this.car = car;
     this.rayCount = 5;
     this.rayLength = 150;
@@ -19,7 +18,6 @@ class Sensor {
 
     this.rays = [];
     this.readings = [];
-    this.ctx = ctx;
   }
 
   update(borders: Border[]) {
@@ -55,27 +53,27 @@ class Sensor {
     }
   }
 
-  draw() {
+  draw(ctx: CanvasRenderingContext2D) {
     for (let i = 0; i < this.rayCount; i++) {
       let end = this.rays[i][1];
       if (this.readings[i]) {
         end = this.readings[i];
       }
       const ray = this.rays[i];
-      this.ctx.beginPath();
-      this.ctx.lineWidth = 2;
-      this.ctx.strokeStyle = "yellow";
-      this.ctx.moveTo(ray[0].x, ray[0].y);
-      this.ctx.lineTo(end.x, end.y);
-      this.ctx.stroke();
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "yellow";
+      ctx.moveTo(ray[0].x, ray[0].y);
+      ctx.lineTo(end.x, end.y);
+      ctx.stroke();
 
 
-      this.ctx.beginPath();
-      this.ctx.lineWidth = 2;
-      this.ctx.strokeStyle = "black";
-      this.ctx.moveTo(end.x, end.y);
-      this.ctx.lineTo(ray[1].x, ray[1].y);
-      this.ctx.stroke();
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "black";
+      ctx.moveTo(end.x, end.y);
+      ctx.lineTo(ray[1].x, ray[1].y);
+      ctx.stroke();
     }
   }
 

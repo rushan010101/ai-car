@@ -9,12 +9,10 @@ class Road {
   private right: number;
   private top: number;
   private bottom: number;
-  private ctx: CanvasRenderingContext2D;
   private infinity = 1000000;
   public borders: Border[];
 
   constructor(
-    ctx: CanvasRenderingContext2D,
     x: number,
     width: number,
     laneCount: number = 3
@@ -28,7 +26,6 @@ class Road {
 
     this.top = -this.infinity;
     this.bottom = this.infinity;
-    this.ctx = ctx;
 
     const topLeft: Point = { x: this.left, y: this.top };
     const topRight: Point = { x: this.right, y: this.top };
@@ -50,27 +47,27 @@ class Road {
       );
     }
 
-    draw() {
-      this.ctx.lineWidth = 5;
-      this.ctx.strokeStyle = "white";
+    draw(ctx: CanvasRenderingContext2D) {
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = "white";
 
       for (let i = 1; i <= this.laneCount - 1; i++) {
         const x = lerp(this.left, this.right, i / this.laneCount);
 
-        this.ctx.setLineDash([20, 20]);
+        ctx.setLineDash([20, 20]);
 
-        this.ctx.beginPath();
-        this.ctx.moveTo(x, this.top);
-        this.ctx.lineTo(x, this.bottom);
-        this.ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, this.top);
+        ctx.lineTo(x, this.bottom);
+        ctx.stroke();
       }
 
-      this.ctx.setLineDash([]);
+      ctx.setLineDash([]);
       this.borders.forEach((border) => {
-        this.ctx.beginPath();
-        this.ctx.moveTo(border[0].x, border[0].y);
-        this.ctx.lineTo(border[1].x, border[1].y);
-        this.ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(border[0].x, border[0].y);
+        ctx.lineTo(border[1].x, border[1].y);
+        ctx.stroke();
       })
     }
   }
