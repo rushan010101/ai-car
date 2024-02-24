@@ -5,6 +5,8 @@ import Sensor from "./sensor";
 class Car {
   public x;
   public y;
+  public angle;
+
   private width;
   private height;
   private controls;
@@ -12,7 +14,6 @@ class Car {
   private acceleration;
   private maxSpeed;
   private friction;
-  public angle;
   private sensor: Sensor;
 
   constructor(
